@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dinner planner</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="wwwroot/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="wwwroot/css/site.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="container-fluid">
+        <div class="jumbotron mt-3 mb-3">
+            <h1 class="display-4 text-center text-truncate">Dinnerplanner</h1>
+        </div>
+        <div class="mt-5 text-center" id="start-dinner">
+            <p class="lead">Ready to make an awesome dinner? Click 'Yes' and we'll start!</p>
+            <button id="start-planning" class="btn btn-primary">Yes!</button>
+        </div>
+        <div class="row" id="content-with-nav">
+            <!-- SIDEBAR AND NAVIGATION -->
+            <div id="overview-nav" class="col-md-3 mb-3" style="display: none;">
+                <nav class="navbar navbar-light navbar-expand-md navbar-row-md bg-light rounded">
+                    <span class="d-md-none badge badge-primary">Basket <span class="total-price">0</span> kr</span>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content" aria-controls="nav-content" aria-expanded="false" aria-label="Toggle menu">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="nav-content">
+                        <div class="w-100">
+                            <p class="h4">My Dinner</p>
+                            <p class="card-text">Add the number of people you'll want to cook for below.</p>
+                            <input id="number-of-guests" class="form-control" type="number" min="0" step="1" placeholder="Number of people" value="2">
+                            <div class="card mb-3 mt-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item border-bottom-0">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <strong>Dish</strong>
+                                            </div>
+                                            <div class="col-6 text-right">
+                                                <strong>Cost</strong>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <!-- START OF WHERE WE'LL PUT ALL DISHES CURRENTLY SELECTED -->
+                                <ul id="dish-basket" class="list-group list-group-flush"></ul>
+                                <!-- START OF TOTAL -->
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item text-right border-top-0">
+                                        <!-- TOTAL WILL BE INSIDE A CLASS, SO THAT WE CAN UPDATE BOTH -->
+                                        <strong>Total </strong><span class="badge badge-primary"><span class="total-price">0</span> kr</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <button id="btn-confirm-dinner" class="btn btn-primary w-100 mb-2">Confirm dinner</button>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <!-- CONTENT INSIDE CARD-->
+            <div class="col-md-9 mb-3">
+                <!-- START OF CONTENT -->
+                <div id="dish-index-holder" class="card bg-light p-3" style="display: none;">
+                    <p class="lead">Search for dishes</p>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <input id="search-dishes" type="text" class="form-control" placeholder="Search for ...">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <select id="dish-type" class="form-control"></select>
+                        </div>
+                        <div class="col-md-4">
+                            <button id="filter-btn" class="btn btn-primary w-100">Search</button>
+                        </div>
+                    </div>
+                    <hr>
+                    <!-- DISH TEMPLATE -->
+                    <div id="dish-index-template" style="display: none;">
+                        <div class="card mb-3 dish-template">
+                            <img class="bg-dark img-fit card-img-top img-fit img-dish" alt="Dish image">
+                            <div class="card-body p-3">
+                                <h5 class="card-title mb-0">
+                                    <button id="1" class="btn btn-primary w-100 text-truncate view-dish-info" style="max-width: 100%;"></button>
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ALL DISH INFO -->
+                    <div id="dish-holder">
+                        <div class="pt-3 m-auto text-center">
+                            <p>Click the search button to view dishes of different types, or search for a dish</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- ALL INDIVIDUAL DISH INFO -->
+                <div id="dish-info" class="card bg-light p-3" style="display: none;">
+                    <div id="loading-info"></div>
+                    <div id="selected-dish" class="row" style="display: none;">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <img class="bg-dark img-fit card-img-top" id="dish-image" src="" alt="Dish image">
+                                <div class="card-body">
+                                    <h5 class="card-title" id="dish-name"></h5>
+                                    <p class="card-text" id="dish-description"></p>
+                                    <button class="btn btn-primary" id="back-to-menu-from-dish">Back to search</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <ul class="list-group list-group-flush" id="dish-ingredients"></ul>
+                                <div class="row mt-3 mb-3 mr-2 ml-2">
+                                    <div class="col-6">
+                                        <button class="btn btn-sm btn-primary btn-add-to-menu" id="add-to-menu-">Add to menu</button>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <p class="mb-0">Total <span class="badge badge-primary" id="total-dish-price"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ALL PREP INFO -->
+        <div id="prep-info" style="display: none;">
+            <button id="btn-edit-dinner-overview" class="btn btn-primary mb-3">Go back and edit dinner</button>
+            <div id="dishes-to-print"></div>
+            <button id="btn-confirm-dinner-summary" class="btn btn-primary w-100">Print recipe</button>
+        </div>
+        <!-- ALL SUMMARY INFO -->
+        <div id="summary-info" style="display: none;">
+            <button id="btn-edit-dinner-summary" class="btn btn-primary mb-3">Go back and edit dinner</button>
+            <div id="dishes-to-view"></div>
+        </div>
+    </div>
+    <!-- Everything Bootstrap needs, jQuery, poppers and of course its own JS -->
+    <script src="wwwroot/node_modules/jquery/dist/jquery.js"></script>
+    <script src="wwwroot/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- The application JavaScript code -->
+    <script src="wwwroot/js/model/dinnerModel.js"></script>
+    <!-- VIEWS -->
+    <script src="wwwroot/js/view/startView.js"></script>
+    <script src="wwwroot/js/view/dishOverviewView.js"></script>
+    <script src="wwwroot/js/view/dishView.js"></script>
+    <script src="wwwroot/js/view/basketView.js"></script>
+    <script src="wwwroot/js/view/preparationView.js"></script>
+    <script src="wwwroot/js/view/summaryView.js"></script>
+    <!-- CONTROLLERS -->
+    <script src="wwwroot/js/controllers/dishOverviewController.js"></script>
+    <script src="wwwroot/js/controllers/dishController.js"></script>
+    <script src="wwwroot/js/controllers/basketController.js"></script>
+    <!-- INITIATE -->
+    <script src="wwwroot/js/app.js"></script>
+</body>
+</html>
